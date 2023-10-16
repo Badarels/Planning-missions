@@ -60,12 +60,12 @@ public class UtilisateurFixtures {
         List<Users> users =  userServices.getUsersByRole("SUPER_ADMIN");
         if (roles != null && users.size() <= 0) {
             Users defaultUser = new
-                    Users(null, "Admin",
-                    "Admin", "THies/Mbour 1",
-                    "778558952", birthDate,
-                    "4586-5852-3689-2564", passwordEncoder().encode("passer@123"),
-                    "admin@gmail.com", true,
-                    false, true, roles);
+                    Users(null, "Ndiaye",
+                    "mamadou", "Pikine",
+                    "781253628","Masculin",birthDate,
+                    "3658-5897-1879-1996", passwordEncoder().encode("passer@12"),
+                    "doumams@gmail.com",true,
+                    false, true, roles,null);
             userServices.addNewUser(defaultUser);
             System.out.println("default admin added successfully");
         }

@@ -31,7 +31,6 @@ public class JwtUserDetailsService implements UserDetailsService {
 
         return userSearch.map(utilisateur -> {
             List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-
             grantedAuthorities.add(new SimpleGrantedAuthority(utilisateur.getRoles().getNomRoles()));
             return new User(emailUser, utilisateur.getPasswordUser(), grantedAuthorities);
         }).orElseThrow(() -> new UsernameNotFoundException("L'utilisateur " + emailUser + " n'existe pas!"));

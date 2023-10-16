@@ -16,5 +16,6 @@ public interface UserServices {
     List<Users> getUsersByRole(String roleName);
     Roles findRolesByNom(String roleName);
     List<Users> listUsers();
+    Users getUserByID(Long id);
 
 }

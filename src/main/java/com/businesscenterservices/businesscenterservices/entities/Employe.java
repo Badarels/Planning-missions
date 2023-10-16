@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -20,8 +17,21 @@ public class Employe {
     private long id;
     private String nom;
     private String prenom;
-    private String telephone;
-    private String adresse;
-    private Date dateNaissance;
-    private Date dateEmbauche;
+    private Date datenaissance;
+    private String lieunaissance;
+    private String contact;
+    private Date date;
+    private Integer ipres;
+    private Integer css;
+    private Integer vrs;
+    private Integer salaireBrute;
+    private Integer salaireNet;
+    private Integer prime;
+    private Integer avancement;
+    private Integer conge;
+    private Integer avanceSurSalaire;
+    private String type;
+    @Column(columnDefinition = "boolean default false")
+    private boolean archive;
+
 }

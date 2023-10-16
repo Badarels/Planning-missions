@@ -74,8 +74,13 @@ public class UserServicesImpl implements UserServices {
         return usersRepository.findAll();
     }
 
-    public Users connectedUser() {
+    @Override
+    public Users getUserByID(Long id) {
+        return usersRepository.findByIdUsers(id);
+    }
 
+
+    public Users connectedUser() {
             try {
                 SecurityContext context = SecurityContextHolder.getContext();
                 Authentication authentication = context.getAuthentication();

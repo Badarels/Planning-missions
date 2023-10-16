@@ -18,7 +18,7 @@ public class BusinesscenterservicesApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		/*utilisateurFixtures.addDefaultRoles();
+	/*	utilisateurFixtures.addDefaultRoles();
 		utilisateurFixtures.addDefaultSuperAdmin();*/
 	}
 

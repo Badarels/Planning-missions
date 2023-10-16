@@ -5,19 +5,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Qualification {
+@NoArgsConstructor
+public class Specialite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String libeleQualification;
-    @ManyToOne
-    @JoinColumn(name = "medecin_id")
-    private Medecin medecin;
+    private String nomSpecialite;
 
+    @ManyToMany(mappedBy = "specialites")
+    private Set<Medecin> medecins;
 
 }
