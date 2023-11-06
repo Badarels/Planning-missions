@@ -1,11 +1,13 @@
 package com.businesscenterservices.businesscenterservices.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -17,7 +19,8 @@ public class Specialite {
     private Long id;
     private String nomSpecialite;
 
-    @ManyToMany(mappedBy = "specialites")
-    private Set<Medecin> medecins;
+    @JsonBackReference
+    @ManyToMany(mappedBy = "specialites", fetch = FetchType.LAZY)
+    private List<Medecin> medecins = new ArrayList<>();
 
 }

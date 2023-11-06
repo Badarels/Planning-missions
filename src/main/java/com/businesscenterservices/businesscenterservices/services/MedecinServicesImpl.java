@@ -1,6 +1,7 @@
 package com.businesscenterservices.businesscenterservices.services;
 
 import com.businesscenterservices.businesscenterservices.entities.Medecin;
+import com.businesscenterservices.businesscenterservices.entities.Specialite;
 import com.businesscenterservices.businesscenterservices.repositories.MedecinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,5 +46,11 @@ public class MedecinServicesImpl implements MedecinServices {
     @Override
     public List<Medecin> getMedecinsByVille(String ville) {
         return medecinRepository.findByAdresseVille(ville);
+    }
+
+    @Override
+    public List<Specialite> getSpecilaiteByMedecin(Long medecinId) {
+        return medecinRepository.getSpecialitesByMedecin(medecinId);
+
     }
 }
