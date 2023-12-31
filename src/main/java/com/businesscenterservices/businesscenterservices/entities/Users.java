@@ -20,14 +20,13 @@ public class Users {
     private Long id;
     private String nomUser;
     private String prenomUser;
-    private String adresseuser;
+    private String adresseUser;
     private String telephoneUser;
     private String sexeUser;
     private Date date_naissanceUser;
     private String numero_piece_identiteUser;
     private String passwordUser;
     private String emailUser;
-
     @Column(columnDefinition = "boolean default true")
     private boolean status;
     @Column(columnDefinition = "boolean default false")

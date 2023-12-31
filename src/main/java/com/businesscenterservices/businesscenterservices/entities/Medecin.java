@@ -31,7 +31,10 @@ public class Medecin{
     private String statutMedecin;
     private String numeroRpps;
     private boolean inscription_A_lordre;
-    @OneToOne
+
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "adresse_id")
     private Adresse adresse;
 
     @JsonManagedReference
@@ -42,6 +45,11 @@ public class Medecin{
             inverseJoinColumns = @JoinColumn(name = "specialite_id", referencedColumnName = "id")
     )
     private List<Specialite> specialites=new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "centreHospitalier_id")
+    private CentreHospitalier centreHospitalier;
+
     @OneToMany(mappedBy = "medecin", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Qualification> qualifications=new ArrayList<>();
 }

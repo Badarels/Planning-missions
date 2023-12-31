@@ -1,28 +1,27 @@
 package com.businesscenterservices.businesscenterservices.services;
 
-import com.businesscenterservices.businesscenterservices.entities.Medecin;
-import com.businesscenterservices.businesscenterservices.entities.Specialite;
+import com.businesscenterservices.businesscenterservices.dto.MedecinDTO;
+import com.businesscenterservices.businesscenterservices.dto.SpecialiteDTO;
 
 import java.util.List;
 
 public interface MedecinServices {
 
+    MedecinDTO createMedecin(MedecinDTO medecinDTO);
 
-    // Créer un médecin
-    Medecin createMedecin(Medecin medecin);
-    // Lire tous les médecins
-    List<Medecin> getAllMedecins();
-    // Obtenir un médecin par son ID
-    Medecin getMedecinById(Long medecinId);
-    // Mettre à jour un médecin
-    Medecin updateMedecin(Long medecinId, Medecin medecin);
-    // Supprimer un médecin
+    MedecinDTO getMedecinById(Long medecinId);
+
+    List<MedecinDTO> getAllMedecins();
+
+    MedecinDTO updateMedecin(Long medecinId, MedecinDTO medecinDTO);
+
     void deleteMedecin(Long medecinId);
-    // Rechercher des médecins par ville
-    List<Medecin> getMedecinsByVille(String ville);
 
-    //Recherche medecin par Specilaité
-    List<Specialite> getSpecilaiteByMedecin(Long medecinId);
+    // Rechercher des médecins par ville
+    List<MedecinDTO> getMedecinsByVille(String ville);
+
+    // Recherche de spécialités par médecin
+    List<SpecialiteDTO> getSpecialitesByMedecin(Long medecinId);
 
 
 }

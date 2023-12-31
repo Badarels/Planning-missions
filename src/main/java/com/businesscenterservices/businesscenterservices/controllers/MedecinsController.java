@@ -1,60 +1,61 @@
 package com.businesscenterservices.businesscenterservices.controllers;
 
-import com.businesscenterservices.businesscenterservices.entities.Medecin;
-import com.businesscenterservices.businesscenterservices.entities.Specialite;
-import com.businesscenterservices.businesscenterservices.services.MedecinServicesImpl;
+import com.businesscenterservices.businesscenterservices.dto.MedecinDTO;
+import com.businesscenterservices.businesscenterservices.dto.SpecialiteDTO;
+import com.businesscenterservices.businesscenterservices.services.MedecinServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping(value = "/api/Medecins", consumes = MediaType.APPLICATION_JSON_VALUE)
 public class MedecinsController{
 
     @Autowired
-    private MedecinServicesImpl medecinServices;
+    private MedecinServices medecinService;
 
-    // Créer un médecin
-    @PostMapping ("Medecins")
-    public Medecin createMedecin(@RequestBody Medecin medecin) {
-        return medecinServices.createMedecin(medecin);
+    @GetMapping("/{medecinId}")
+    public ResponseEntity<MedecinDTO> getMedecinById(@PathVariable Long medecinId) {
+        MedecinDTO medecinDTO = medecinService.getMedecinById(medecinId);
+        return ResponseEntity.ok(medecinDTO);
     }
 
-    // Lire tous les médecins
-    @GetMapping("Medecins")
-    public List<Medecin> getAllMedecins() {
-        return medecinServices.getAllMedecins();
+    @GetMapping
+    public ResponseEntity<List<MedecinDTO>> getAllMedecins() {
+        List<MedecinDTO> medecinDTOs = medecinService.getAllMedecins();
+        return ResponseEntity.ok(medecinDTOs);
     }
 
-    // Obtenir un médecin par son ID
-
-    @GetMapping("Medecin/{medecinId}")
-    public Medecin getMedecinById(@PathVariable("medecinId") Long medecinId) {
-        return medecinServices.getMedecinById(medecinId);
-    }
-    // Mettre à jour un médecin
-    @PutMapping("{medecinsId}")
-    public Medecin updateMedecin(@PathVariable Long medecinId, @RequestBody Medecin medecin) {
-        return medecinServices.updateMedecin(medecinId, medecin);
+    @PostMapping
+    public ResponseEntity<MedecinDTO> createMedecin(@RequestBody MedecinDTO medecinDTO) {
+        MedecinDTO createdMedecin = medecinService.createMedecin(medecinDTO);
+        return new ResponseEntity<>(createdMedecin, HttpStatus.CREATED);
     }
 
-    // Supprimer un médecin
-    @DeleteMapping("{medecinsId}")
-    public void deleteMedecin(@PathVariable Long medecinId) {
-        medecinServices.deleteMedecin(medecinId);
+    @PutMapping("/{medecinId}")
+    public ResponseEntity<MedecinDTO> updateMedecin(@PathVariable Long medecinId, @RequestBody MedecinDTO medecinDTO) {
+        MedecinDTO updatedMedecin = medecinService.updateMedecin(medecinId, medecinDTO);
+        if (updatedMedecin != null) {
+            return ResponseEntity.ok(updatedMedecin);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    // Rechercher des médecins par ville
-    @GetMapping("getMedecinByVille/{ville}")
-    public List<Medecin> getMedecinsByVille(@PathVariable String ville) {
-        return medecinServices.getMedecinsByVille(ville);
+    @DeleteMapping("/{medecinId}")
+    public ResponseEntity<Void> deleteMedecin(@PathVariable Long medecinId) {
+        medecinService.deleteMedecin(medecinId);
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("getSpecialiteByMedecin/{medecinId}")
-    public List<Specialite> getSpecialiteByMedecin(@PathVariable Long medecinId){
-        return  medecinServices.getSpecilaiteByMedecin(medecinId);
+    @GetMapping("/{medecinId}/specialites")
+    public ResponseEntity<List<SpecialiteDTO>> getSpecialitesByMedecin(@PathVariable Long medecinId) {
+        List<SpecialiteDTO> specialiteDTOs = medecinService.getSpecialitesByMedecin(medecinId);
+        return ResponseEntity.ok(specialiteDTOs);
     }
-
 
 }

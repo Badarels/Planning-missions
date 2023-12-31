@@ -1,13 +1,13 @@
 package com.businesscenterservices.businesscenterservices.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -25,5 +25,14 @@ public class Adresse {
     private String ville;
     private String departement;
     private String region;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "adresse", cascade = CascadeType.ALL)
+    private List<Medecin> medecins;
+
+    @OneToMany(mappedBy = "adresse")
+    @JsonIgnoreProperties("adresse")
+    private List<CentreHospitalier> centreHospitalier;
+
 
 }
