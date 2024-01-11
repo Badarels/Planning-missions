@@ -19,8 +19,10 @@ public class CentreHospitalier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email_ch;
-    private String nom_Ch;
+    private String nom_ch;
+    private String siret;
     private String telephone;
+    private boolean archived;
 
     @OneToOne
     @JsonIgnoreProperties("centreHospitalier")

@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Besoins {
+public class Besoins{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

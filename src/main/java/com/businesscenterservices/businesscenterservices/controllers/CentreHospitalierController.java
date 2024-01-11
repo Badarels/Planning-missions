@@ -28,6 +28,16 @@ public class CentreHospitalierController {
         return ResponseEntity.ok(centreHospitalierDTOs);
     }
 
+    @PutMapping("/{centreHospitalierId}/archive")
+    public ResponseEntity<CentreHospitalierDTO> archiveCentreHospitalier(
+            @PathVariable Long centreHospitalierId) {
+        CentreHospitalierDTO archivedCentreHospitalier = centreHospitalierService.archiveCentreHospitalier(centreHospitalierId);
+        if (archivedCentreHospitalier != null) {
+            return ResponseEntity.ok(archivedCentreHospitalier);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
     @PostMapping
     public ResponseEntity<CentreHospitalierDTO> createCentreHospitalier(@RequestBody CentreHospitalierDTO centreHospitalierDTO) {
         CentreHospitalierDTO createdCentreHospitalier = centreHospitalierService.createCentreHospitalier(centreHospitalierDTO);

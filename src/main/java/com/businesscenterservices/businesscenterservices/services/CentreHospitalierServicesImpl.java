@@ -1,6 +1,7 @@
 package com.businesscenterservices.businesscenterservices.services;
 
 
+import com.businesscenterservices.businesscenterservices.controllers.Exceptions.EntityNotFoundException;
 import com.businesscenterservices.businesscenterservices.dto.CentreHospitalierDTO;
 import com.businesscenterservices.businesscenterservices.dto.MedecinDTO;
 import com.businesscenterservices.businesscenterservices.entities.CentreHospitalier;
@@ -30,11 +31,11 @@ public class CentreHospitalierServicesImpl implements CentreHospitalierServices 
         return modelMapper.map(savedCentreHospitalier, CentreHospitalierDTO.class);
     }
 
-    @Override
-    public CentreHospitalierDTO getCentreHospitalierById(Long centreHospitalierId) {
-        Optional<CentreHospitalier> centreHospitalierOptional = centreHospitalierRepository.findById(centreHospitalierId);
-        return centreHospitalierOptional.map(centreHospitalier -> modelMapper.map(centreHospitalier, CentreHospitalierDTO.class)).orElse(null);
-    }
+        @Override
+        public CentreHospitalierDTO getCentreHospitalierById(Long centreHospitalierId) {
+            Optional<CentreHospitalier> centreHospitalierOptional = centreHospitalierRepository.findById(centreHospitalierId);
+            return centreHospitalierOptional.map(centreHospitalier -> modelMapper.map(centreHospitalier, CentreHospitalierDTO.class)).orElse(null);
+        }
 
     @Override
     public List<CentreHospitalierDTO> getAllCentreHospitaliers() {
@@ -47,8 +48,7 @@ public class CentreHospitalierServicesImpl implements CentreHospitalierServices 
     @Override
     public CentreHospitalierDTO updateCentreHospitalier(Long centreHospitalierId, CentreHospitalierDTO centreHospitalierDTO) {
         if (!centreHospitalierRepository.existsById(centreHospitalierId)) {
-            // Gérer le cas où le centre hospitalier n'existe pas
-            return null;
+            throw new EntityNotFoundException("Centre Hospitalier avec l'ID " + centreHospitalierId + " n'existe pas.");
         }
 
         CentreHospitalier centreHospitalierToUpdate = modelMapper.map(centreHospitalierDTO, CentreHospitalier.class);
@@ -56,6 +56,22 @@ public class CentreHospitalierServicesImpl implements CentreHospitalierServices 
 
         CentreHospitalier updatedCentreHospitalier = centreHospitalierRepository.save(centreHospitalierToUpdate);
         return modelMapper.map(updatedCentreHospitalier, CentreHospitalierDTO.class);
+    }
+
+    @Override
+    public CentreHospitalierDTO archiveCentreHospitalier(Long centreHospitalierId) {
+        Optional<CentreHospitalier> optionalCentreHospitalier = centreHospitalierRepository.findById(centreHospitalierId);
+        if (optionalCentreHospitalier.isPresent()) {
+            CentreHospitalier centreHospitalier = optionalCentreHospitalier.get();
+            centreHospitalier.setArchived(true); // Mettre à jour seulement le champ archived
+            centreHospitalierRepository.save(centreHospitalier);
+            return convertToDTO(centreHospitalier);
+        }
+        return null;
+    }
+
+    private CentreHospitalierDTO convertToDTO(CentreHospitalier centreHospitalier) {
+        return modelMapper.map(centreHospitalier, CentreHospitalierDTO.class);
     }
 
     @Override

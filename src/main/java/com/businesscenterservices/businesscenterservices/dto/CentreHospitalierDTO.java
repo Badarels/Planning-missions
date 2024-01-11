@@ -12,9 +12,10 @@ import java.util.List;
 public class CentreHospitalierDTO {
     private Long id;
     private String email_ch;
-    private String nom_Ch;
+    private String nom_ch;
+    private String siret;
     private String telephone;
     private AdresseDTO adresse;
     private List<MedecinDTO> medecins;
-
+    private boolean archived;
 }

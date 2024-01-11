@@ -12,4 +12,5 @@ public interface CentreHospitalierServices {
     CentreHospitalierDTO updateCentreHospitalier(Long centreHospitalierId, CentreHospitalierDTO centreHospitalierDTO);
     void deleteCentreHospitalier(Long centreHospitalierId);
     List<MedecinDTO> getMedecinsByCentreHospitalier(Long centreHospitalierId);
+    CentreHospitalierDTO archiveCentreHospitalier(Long id);
 }
