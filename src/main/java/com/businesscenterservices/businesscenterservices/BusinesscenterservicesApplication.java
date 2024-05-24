@@ -13,17 +13,14 @@ public class BusinesscenterservicesApplication implements CommandLineRunner {
 	private UtilisateurFixtures utilisateurFixtures;
 
 	public static void main(String[] args){
-
-		SpringApplication.run(BusinesscenterservicesApplication.class, args); }
+		SpringApplication.run(BusinesscenterservicesApplication.class, args);
+	}
 
 	@Override
 	public void run(String... args) throws Exception {
 		/*utilisateurFixtures.addDefaultRoles();
 		utilisateurFixtures.addDefaultSuperAdmin();*/
 	}
-
-
-
 		/*@Bean
 		CommandLineRunner Start(AccountServices accountServices){
 			return args -> {

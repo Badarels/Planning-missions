@@ -1,7 +1,6 @@
 package com.businesscenterservices.businesscenterservices.fixtures;
 
-import com.businesscenterservices.businesscenterservices.entities.Roles;
-import com.businesscenterservices.businesscenterservices.entities.Users;
+import com.businesscenterservices.businesscenterservices.dto.RolesDTO;
 import com.businesscenterservices.businesscenterservices.services.UserServicesImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,10 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @Component
@@ -35,40 +31,46 @@ public class UtilisateurFixtures {
     }
 
     public void addDefaultRoles() {
-        List<Roles> rList = userServices.getAllRole();
+        List<RolesDTO> rList = userServices.getAllRoles();
         if (rList == null || rList.isEmpty()) {
-            Roles[] roles = {
-                    new Roles(null, "SUPER_ADMIN"),
-                    new Roles(null, "ADMIN"),
-                    new Roles(null, "AGENTS")
+            RolesDTO[] defaultRoles = {
+                    new RolesDTO(null, "SUPER_ADMIN"),
+                    new RolesDTO(null, "ADMIN"),
+                    new RolesDTO(null, "AGENTS")
             };
-            userServices.addAllRole(Arrays.asList(roles));
+            userServices.addAllRoles(Arrays.asList(defaultRoles));
         }
     }
 
-    public void addDefaultSuperAdmin() {
-        // Parse the date string to a Date object
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Date birthDate = null;
+
+   /* public void addDefaultSuperAdmin() {
+        // 1. Gestion des exceptions
         try {
-            birthDate = dateFormat.parse("12-02-1995");
+            // 2. Utilisation de l'PasswordEncoder (assurez-vous de l'avoir configuré)
+            PasswordEncoder passwordEncoder = passwordEncoder(); // Remplacez par l'obtention correcte de votre PasswordEncoder
+
+            // 3. Conversion de la date
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            Date birthDate = dateFormat.parse("12-02-1995");
+
+            RolesDTO roles = userServices.findRolesByNom("SUPER_ADMIN");
+            List<UsersDTO> users =  userServices.getUsersByRole("SUPER_ADMIN");
+
+            if (roles != null && users.size() <= 0) {
+                UsersDTO defaultUserDTO = new UsersDTO(
+                        null, "Ndiaye", "mamadou", "Pikine",
+                        "781253628", "Masculin", birthDate,
+                        "3658-5897-1879-1996", passwordEncoder.encode("passer@12"),
+                        "doumams@gmail.com", true, false, true, roles, null);
+
+                userServices.addNewUser(defaultUserDTO);
+                System.out.println("default admin added successfully");
+            }
         } catch (ParseException e) {
+            // Gestion de l'exception (remplacez par votre propre logique)
             e.printStackTrace();
         }
+    }*/
 
-        Roles roles = userServices.findRolesByNom("SUPER_ADMIN");
-        List<Users> users =  userServices.getUsersByRole("SUPER_ADMIN");
-        if (roles != null && users.size() <= 0) {
-            Users defaultUser = new
-                    Users(null, "Ndiaye",
-                    "mamadou", "Pikine",
-                    "781253628","Masculin",birthDate,
-                    "3658-5897-1879-1996", passwordEncoder().encode("passer@12"),
-                    "doumams@gmail.com",true,
-                    false, true, roles,null);
-            userServices.addNewUser(defaultUser);
-            System.out.println("default admin added successfully");
-        }
-    }
 
 }

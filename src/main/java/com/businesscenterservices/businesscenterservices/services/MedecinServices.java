@@ -16,10 +16,8 @@ public interface MedecinServices {
     MedecinDTO updateMedecin(Long medecinId, MedecinDTO medecinDTO);
 
     void deleteMedecin(Long medecinId);
-
     // Rechercher des médecins par ville
     List<MedecinDTO> getMedecinsByVille(String ville);
-
     // Recherche de spécialités par médecin
     List<SpecialiteDTO> getSpecialitesByMedecin(Long medecinId);
 

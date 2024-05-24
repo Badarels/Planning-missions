@@ -13,12 +13,10 @@ import java.util.Optional;
 public interface UsersRepository extends JpaRepository<Users, Long>{
    Users findByEmailUser(String emailUser);
    Users findByNomUser(String nomUser);
-   @Query("SELECT u FROM Users u WHERE u.archive=false AND u.status=true AND u.id=:id")
-   Users findByIdUsers(@Param("id") Long id);
 
-   @Query("SELECT u FROM Users u WHERE u.archive=false AND u.status=true AND u.roles.nomRoles=:roles")
+   /*@Query("SELECT u FROM Users u WHERE u.archived=false AND u.status=true AND u.id=:id")
+   Users findByIdUsers(@Param("id") Long id);*/
+
+   @Query("SELECT u FROM Users u WHERE u.archived=false AND u.status=true AND u.roles.nomRoles=:roles")
    Optional<List<Users>> findByRole(@Param("roles") String roles);
-
-
-
 }

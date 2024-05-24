@@ -2,6 +2,7 @@ package com.businesscenterservices.businesscenterservices.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,4 +31,8 @@ public class CentreHospitalier {
 
     @OneToMany(mappedBy = "centreHospitalier", cascade = CascadeType.ALL)
     private List<Medecin> medecins;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "centreHospitalier", cascade = CascadeType.ALL)
+    private List<Missions> missions;
 }

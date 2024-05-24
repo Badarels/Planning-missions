@@ -6,7 +6,7 @@ import com.businesscenterservices.businesscenterservices.Jwtutils.JwtResponsMode
 import com.businesscenterservices.businesscenterservices.Jwtutils.JwtUserDetailsService;
 import com.businesscenterservices.businesscenterservices.Jwtutils.TokenManager;
 import com.businesscenterservices.businesscenterservices.controllers.Exceptions.BadRequestException;
-import com.businesscenterservices.businesscenterservices.entities.Users;
+import com.businesscenterservices.businesscenterservices.dto.UsersDTO;
 import com.businesscenterservices.businesscenterservices.services.UserServicesImpl;
 import com.businesscenterservices.businesscenterservices.services.Utilitaire;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +66,7 @@ public class AuthentificationController {
         @GetMapping("/api/connected-user")
     public MappingJacksonValue connectedUser() {
         try {
-            Users utilisateur = utilisateurService.connectedUser();
+            UsersDTO utilisateur = utilisateurService.connectedUser();
             return utilitaire.getFilter(utilisateur, "passwordFilter", "password");
         } catch (Exception e) {
             e.printStackTrace();

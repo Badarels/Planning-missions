@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 import java.util.List;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,16 +17,16 @@ public class MedecinDTO {
     private String emailMedecin;
     private String sexeMedecin;
     private Date dateDeNaissanceMedecin;
+    private Date dateEcheance;
     private String lieuDeNaissanceMedecin;
     private String numeroSecuriteSocialeMedecin;
     private String telephoneMedecin_1;
     private String telephoneMedecin_2;
     private String statutMedecin;
     private String numeroRpps;
-    private boolean inscription_A_lordre;
+    private String inscription_A_lordre;
     private AdresseDTO adresse;
+    private String qualifications;
     private List<SpecialiteDTO> specialites;
     private CentreHospitalierDTO centreHospitalier;
-    private List<QualificationDTO> qualifications;
-
 }

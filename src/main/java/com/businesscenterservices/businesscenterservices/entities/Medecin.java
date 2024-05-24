@@ -14,8 +14,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Medecin{
-
+public class Medecin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,32 +23,33 @@ public class Medecin{
     private String emailMedecin;
     private String sexeMedecin;
     private Date dateDeNaissanceMedecin;
+    private Date dateEcheance;
     private String lieuDeNaissanceMedecin;
     private String numeroSecuriteSocialeMedecin;
     private String telephoneMedecin_1;
     private String telephoneMedecin_2;
     private String statutMedecin;
     private String numeroRpps;
-    private boolean inscription_A_lordre;
+    private String qualifications;
+    private String inscription_A_lordre;
 
     @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "adresse_id")
     private Adresse adresse;
 
-    @JsonManagedReference
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "medecin_specialite",
-            joinColumns = @JoinColumn(name = "medecin_id",referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "specialite_id", referencedColumnName = "id")
-    )
-    private List<Specialite> specialites=new ArrayList<>();
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "centreHospitalier_id")
     private CentreHospitalier centreHospitalier;
 
-    @OneToMany(mappedBy = "medecin", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<Qualification> qualifications=new ArrayList<>();
+    @JsonManagedReference
+    @OneToMany(mappedBy = "medecin", cascade = CascadeType.ALL)
+    private List<Missions> missions;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "medecin_specialites",
+            joinColumns = @JoinColumn(name = "medecin_id"),
+            inverseJoinColumns = @JoinColumn(name = "specialite_id")
+    )
+    private List<Specialite> specialites = new ArrayList<>();
 }

@@ -32,7 +32,7 @@ public class MedecinServicesImpl implements MedecinServices {
 
     @Autowired
     private SpecialiteRepository specialiteRepository;
-
+;
     @Override
     @Transactional
     public MedecinDTO createMedecin(MedecinDTO medecinDTO) {
@@ -40,38 +40,32 @@ public class MedecinServicesImpl implements MedecinServices {
             // Convertir le DTO en entité
             Medecin medecin = modelMapper.map(medecinDTO, Medecin.class);
 
-            // Convertir l'adresse du DTO en entité
-            Adresse adresse = modelMapper.map(medecinDTO.getAdresse(), Adresse.class);
-
-            // Convertir les spécialités du DTO en entités
-            List<Specialite> specialites = medecinDTO.getSpecialites().stream()
-                    .map(specialiteDTO -> modelMapper.map(specialiteDTO, Specialite.class))
-                    .collect(Collectors.toList());
-
-            // Associer l'adresse et les spécialités au médecin
+            // Enregistrer l'adresse du médecin en base de données
+            Adresse adresse = adresseRepository.save(medecin.getAdresse());
             medecin.setAdresse(adresse);
-            medecin.setSpecialites(specialites);
-
-            // Enregistrer l'adresse en base de données
-            adresseRepository.save(adresse);
-
-            // Enregistrer les spécialités en base de données
-            specialiteRepository.saveAll(specialites);
-
             // Enregistrer le médecin en base de données
             Medecin savedMedecin = medecinRepository.save(medecin);
-
+            // Récupérer les spécialités choisies
+            List<SpecialiteDTO> specialitesDTO = medecinDTO.getSpecialites();
+            List<Specialite> specialites = specialiteRepository.findAllById(
+                    specialitesDTO.stream().map(SpecialiteDTO::getId).collect(Collectors.toList())
+            );
+            // Associer les spécialités au médecin
+            savedMedecin.setSpecialites(specialites);
+            // Enregistrer les modifications dans la base de données
+            savedMedecin = medecinRepository.save(savedMedecin);
             // Convertir l'entité en DTO pour la réponse
             MedecinDTO savedMedecinDTO = modelMapper.map(savedMedecin, MedecinDTO.class);
-
             return savedMedecinDTO;
         } catch (Exception e) {
             // Gérer les exceptions
             throw new RuntimeException("Erreur lors de la création du médecin", e);
         }
     }
+
+
     @Override
-    public MedecinDTO getMedecinById(Long medecinId) {
+    public MedecinDTO getMedecinById(Long medecinId){
         Optional<Medecin> medecinOptional = medecinRepository.findById(medecinId);
         return medecinOptional.map(medecin -> modelMapper.map(medecin, MedecinDTO.class)).orElse(null);
     }
@@ -90,10 +84,8 @@ public class MedecinServicesImpl implements MedecinServices {
             // Gérer le cas où le médecin n'existe pas
             return null;
         }
-
         Medecin medecinToUpdate = modelMapper.map(medecinDTO, Medecin.class);
         medecinToUpdate.setId(medecinId);
-
         Medecin updatedMedecin = medecinRepository.save(medecinToUpdate);
         return modelMapper.map(updatedMedecin, MedecinDTO.class);
     }

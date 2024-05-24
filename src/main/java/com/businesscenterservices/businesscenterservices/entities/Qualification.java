@@ -15,9 +15,6 @@ public class Qualification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String libeleQualification;
-    @ManyToOne
-    @JoinColumn(name = "medecin_id")
-    private Medecin medecin;
 
 
 }
