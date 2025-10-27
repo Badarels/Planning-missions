@@ -1,14 +1,13 @@
 package com.businesscenterservices.businesscenterservices.services;
 
-import com.businesscenterservices.businesscenterservices.controllers.Exceptions.ResourceNotFoundException;
+import com.businesscenterservices.businesscenterservices.exceptions.ResourceNotFoundException;
 import com.businesscenterservices.businesscenterservices.dto.AdresseDTO;
 import com.businesscenterservices.businesscenterservices.dto.CentreHospitalierDTO;
 import com.businesscenterservices.businesscenterservices.dto.MedecinDTO;
 import com.businesscenterservices.businesscenterservices.entities.Adresse;
 import com.businesscenterservices.businesscenterservices.repositories.AdresseRepository;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -17,12 +16,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class AdresseServicesImpl implements  AdresseServices {
-    @Autowired
-    private AdresseRepository adresseRepository;
-
-    @Autowired
-    private ModelMapper modelMapper;
+@RequiredArgsConstructor
+public class AdresseServicesImpl implements AdresseServices {
+    private final AdresseRepository adresseRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public AdresseDTO createAdresse(AdresseDTO adresseDTO) {
@@ -33,8 +30,9 @@ public class AdresseServicesImpl implements  AdresseServices {
 
     @Override
     public AdresseDTO getAdresseById(Long adresseId) {
-        Optional<Adresse> adresseOptional = adresseRepository.findById(adresseId);
-        return adresseOptional.map(adresse -> modelMapper.map(adresse, AdresseDTO.class)).orElse(null);
+        Adresse adresse = adresseRepository.findById(adresseId)
+            .orElseThrow(() -> new ResourceNotFoundException("Adresse", "id", adresseId));
+        return modelMapper.map(adresse, AdresseDTO.class);
     }
 
     @Override
@@ -47,20 +45,20 @@ public class AdresseServicesImpl implements  AdresseServices {
 
     @Override
     public AdresseDTO updateAdresse(Long adresseId, AdresseDTO adresseDTO) {
-        if (!adresseRepository.existsById(adresseId)) {
-            // Gérer le cas où l'adresse n'existe pas
-            return null;
-        }
-
-        Adresse adresseToUpdate = modelMapper.map(adresseDTO, Adresse.class);
-        adresseToUpdate.setId(adresseId);
-
-        Adresse updatedAdresse = adresseRepository.save(adresseToUpdate);
+        Adresse adresse = adresseRepository.findById(adresseId)
+            .orElseThrow(() -> new ResourceNotFoundException("Adresse", "id", adresseId));
+        
+        modelMapper.map(adresseDTO, adresse);
+        adresse.setId(adresseId);
+        Adresse updatedAdresse = adresseRepository.save(adresse);
         return modelMapper.map(updatedAdresse, AdresseDTO.class);
     }
 
     @Override
     public void deleteAdresse(Long adresseId) {
+        if (!adresseRepository.existsById(adresseId)) {
+            throw new ResourceNotFoundException("Adresse", "id", adresseId);
+        }
         adresseRepository.deleteById(adresseId);
     }
 

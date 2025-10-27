@@ -181,5 +181,26 @@ public class UserServicesImpl implements UserServices {
         }
     }
 
+    @Transactional
+    public void updatePassword(String username, String encodedPassword) {
+        Users user = usersRepository.findByEmailUser(username);
+        if (user == null) {
+            throw new EntityNotFoundException("Utilisateur non trouvé avec l'email: " + username);
+        }
+        user.setPasswordUser(encodedPassword);
+        usersRepository.save(user);
+    }
+
+    @Override
+    public UsersDTO findByEmail(String email) {
+        Users user = usersRepository.findByEmailUser(email);
+        return user != null ? modelMapper.map(user, UsersDTO.class) : null;
+    }
+
+    @Override
+    public UsersDTO save(UsersDTO userDTO) {
+        Users user = modelMapper.map(userDTO, Users.class);
+        return modelMapper.map(usersRepository.save(user), UsersDTO.class);
+    }
 }
 

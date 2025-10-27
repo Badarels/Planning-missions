@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +45,7 @@ public class Medecin {
     @JsonManagedReference
     @OneToMany(mappedBy = "medecin", cascade = CascadeType.ALL)
     private List<Missions> missions;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "medecin_specialites",
             joinColumns = @JoinColumn(name = "medecin_id"),

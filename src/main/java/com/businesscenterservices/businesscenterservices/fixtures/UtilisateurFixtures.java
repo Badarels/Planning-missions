@@ -16,18 +16,12 @@ import java.util.List;
 public class UtilisateurFixtures {
 
     private UserServicesImpl userServices;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private PasswordEncoder bCrypPasswordEncoder;
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    public UtilisateurFixtures(@Lazy PasswordEncoder bCrypPasswordEncoder, UserServicesImpl userServices) {
-        this.bCrypPasswordEncoder = bCrypPasswordEncoder;
+    public UtilisateurFixtures(@Lazy UserServicesImpl userServices, PasswordEncoder passwordEncoder) {
         this.userServices = userServices;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void addDefaultRoles() {

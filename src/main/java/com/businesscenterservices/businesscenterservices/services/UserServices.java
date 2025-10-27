@@ -21,5 +21,6 @@ public interface UserServices {
     UsersDTO updateUser(Long usersId, UsersDTO usersDTO);
     void addAllRoles(List<RolesDTO> rolesDTOs);
     UsersDTO connectedUser();
-
+    UsersDTO findByEmail(String email);
+    UsersDTO save(UsersDTO userDTO);
 }

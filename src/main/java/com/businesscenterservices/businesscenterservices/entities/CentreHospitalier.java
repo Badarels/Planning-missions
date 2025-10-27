@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
@@ -25,11 +25,12 @@ public class CentreHospitalier {
     private String telephone;
     private boolean archived;
 
-    @OneToOne
-    @JsonIgnoreProperties("centreHospitalier")
+    @ManyToOne
+    @JsonManagedReference("adresse-centre")
+    @JoinColumn(name = "adresse_id")
     private Adresse adresse;
 
-    @OneToMany(mappedBy = "centreHospitalier", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "centreHospitalier", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Medecin> medecins;
 
     @JsonManagedReference
